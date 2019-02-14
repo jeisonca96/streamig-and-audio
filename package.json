@@ -15,7 +15,7 @@
         "Window.URL",
         "Streaming"
     ],
-    "author": "@jonmircha",
+    "author": "jeisonc",
     "license": "MIT",
     "dependencies": {
         "express": "^4.13.3",

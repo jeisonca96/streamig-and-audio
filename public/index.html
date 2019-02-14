@@ -2,6 +2,7 @@
 
 <head>
     <meta charset="UTF-8" />
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <style type="text/css">
     body {
@@ -34,13 +35,21 @@
 
 <body>
     <audio controls autoplay></audio>
-    <script type="text/javascript" src="recorder.js">
+    <script type="text/javascript" src="js/recorder.js">
     </script>
     <p></p>
     <input onclick="grabar()" type="button" value="Grabar ahora" />
     <input onclick="parar()" type="button" value="Parar y escuchar" />
 
     <script>
+        var io = io()
+
+        io.on('audio', function(audioRec) {
+            console.log(audioRec);
+            audio.src = audioRec;
+            document.querySelector('p').innerHTML = "Paramos la grabación y ahora escuchala...";
+        })
+
         //Función en caso de error
         var error = function(e) {
             console.log('¡No pude grabarte!', e);
@@ -79,6 +88,7 @@
             recorder.stop(); //Paramos la grabación
             recorder.exportWAV(function(s) { //Exportamos en formato WAV el audio 
                 audio.src = window.URL.createObjectURL(s); //Y convertimos el valor devuelto en URL para pasarlo a nuestro reproductor.
+                io.emit('audio', window.URL.createObjectURL(s))
             });
             document.querySelector('p').innerHTML = "Paramos la grabación y ahora escuchala...";
         }

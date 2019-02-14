@@ -29,4 +29,9 @@ io.on('connection', (socket) => {
         io.emit('play stream', image)
             //console.log(image)
     })
+
+    socket.on('audio', (audio) => {
+        io.emit('audio', audio)
+        console.log(audio)
+    })
 })
