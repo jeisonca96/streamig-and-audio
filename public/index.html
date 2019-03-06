@@ -10,15 +10,15 @@
         font-size: 16px;
         text-align: center;
     }
-    
+
     audio {
         margin: 20px;
     }
-    
+
     p {
         margin: 10px;
     }
-    
+
     input[type="button"] {
         background: #CCC;
         border: none;
@@ -27,7 +27,7 @@
         font-size: 1em;
         padding: 5px;
     }
-    
+
     input[type="button"]:hover {
         background: #666;
     }
@@ -44,19 +44,27 @@
     <script>
         var io = io()
 
-        io.on('audio', function(audioRec) {
+        io.on('connect', function (audioRec) {
+            console.log("Conectado al servidor");
+        })
+
+        io.emit('1001', { dd: 1111 }, function (resp) {
+            console.log('Response 1001: ', resp);
+        })
+
+        io.on('audio', function (audioRec) {
             console.log(audioRec);
             audio.src = audioRec;
             document.querySelector('p').innerHTML = "Paramos la grabación y ahora escuchala...";
         })
 
         //Función en caso de error
-        var error = function(e) {
+        var error = function (e) {
             console.log('¡No pude grabarte!', e);
         };
 
         //Función cuando todo tenga exito
-        var exito = function(s) {
+        var exito = function (s) {
             var AudioContext = window.AudioContext || window.webkitAudioContext;
             var context = new AudioContext(); //Conectamos con nuestra entrada de audio
             var flujo = context.createMediaStreamSource(s); //Obtenemos el flujo de datos desde la fuente
@@ -86,7 +94,7 @@
         //Funcion para parar la grabación y escucharla
         function parar() {
             recorder.stop(); //Paramos la grabación
-            recorder.exportWAV(function(s) { //Exportamos en formato WAV el audio 
+            recorder.exportWAV(function (s) { //Exportamos en formato WAV el audio 
                 audio.src = window.URL.createObjectURL(s); //Y convertimos el valor devuelto en URL para pasarlo a nuestro reproductor.
                 io.emit('audio', window.URL.createObjectURL(s))
             });

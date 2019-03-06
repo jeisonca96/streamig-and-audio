@@ -25,13 +25,31 @@ app
     })
 
 io.on('connection', (socket) => {
+
+    console.log('Client connected: ' + socket.client.id)
+
     socket.on('streaming', (image) => {
         io.emit('play stream', image)
-            // console.log(image)
+        // console.log(image)
     })
 
     socket.on('audio', (audio) => {
         io.emit('audio', audio)
-            // console.log(audio)
+        // console.log(audio)
+    })
+
+    socket.on('1000', (data) => {
+        console.log('1000',data);
+        io.emit('1000', { msg: "Code 1000!!!", data })
+        // console.log(audio)
+    })
+
+    socket.on('1001', (data, callback) => {
+        console.log('1001',data);
+        callback({ msg: "Code 1001!!!", data })
+    })
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected: ' + socket.client.id);
     })
 })
