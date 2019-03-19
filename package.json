@@ -4,7 +4,7 @@
     "description": "Creación de Video Streaming con Express, Socket.IO y API's de JavaScript",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "ws-benchmark \"http://localhost:3000\" -c 10 -n 2000"
     },
     "keywords": [
         "Express",

@@ -34,13 +34,12 @@ io.on('connection', (socket) => {
     })
 
     socket.on('audio', (audio) => {
+        console.log(audio)
         io.emit('audio', audio)
-        // console.log(audio)
     })
 
     socket.on('1000', (data) => {
         console.log('1000',data);
-        io.emit('1000', { msg: "Code 1000!!!", data })
         // console.log(audio)
     })
 
