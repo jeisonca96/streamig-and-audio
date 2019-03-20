@@ -2,17 +2,20 @@
 
 var io = io()
 
-io.on('connect', function (audioRec) {
+io.on('connect', function(audioRec) {
     console.log("Conectado al servidor");
 })
 
-io.emit('1001', { dd: 1111 }, function (resp) {
-    console.log('Response 1001: ', resp);
+io.emit('audio', 'audio')
+
+io.on('audio', function(audioRec) {
+    console.log(audioRec);
 })
 
 let log = console.log.bind(console),
     id = val => document.getElementById(val),
-    ul = id('ul'), // Boton de descarga
+    ul = id('ul'),
+    ull = id('ull'),
     gUMbtn = id('gUMbtn'),
     start = id('start'),
     stop = id('stop'),
@@ -78,12 +81,12 @@ stop.onclick = e => {
 
 
 function makeLink() {
-    let blob = new Blob(chunks, { type: media.type })
-        , url = URL.createObjectURL(blob)
-        , li = document.createElement('li')
-        , mt = document.createElement(media.tag)
-        , hf = document.createElement('a'),
-          bt = document.createElement('button')
+    let blob = new Blob(chunks, { type: media.type }),
+        url = URL.createObjectURL(blob),
+        li = document.createElement('li'),
+        mt = document.createElement(media.tag),
+        hf = document.createElement('a'),
+        bt = document.createElement('button')
 
     bt.setAttribute('class', "btn btn-default")
     bt.setAttribute('id', "send")
@@ -101,4 +104,8 @@ function makeLink() {
     ul.appendChild(li);
 }
 
-// <button class="btn btn-default" id='stop'>Stop</button>
+function addAudioON() {
+    let mt = document.createElement('audio')
+    ull.appendChild(mt)
+    console.log('hii');
+}

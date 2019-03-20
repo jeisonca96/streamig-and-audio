@@ -10,15 +10,15 @@
         font-size: 16px;
         text-align: center;
     }
-
+    
     audio {
         margin: 20px;
     }
-
+    
     p {
         margin: 10px;
     }
-
+    
     input[type="button"] {
         background: #CCC;
         border: none;
@@ -27,7 +27,7 @@
         font-size: 1em;
         padding: 5px;
     }
-
+    
     input[type="button"]:hover {
         background: #666;
     }
@@ -43,34 +43,43 @@
 
     <script>
         var io = io()
-        io.on('connect', function (audioRec) {
+
+        io.on('connect', function(audioRec) {
             console.log("Conectado al servidor");
         })
-        io.emit('1001', { dd: 1111 }, function (resp) {
+
+        io.emit('1001', {
+            dd: 1111
+        }, function(resp) {
             console.log('Response 1001: ', resp);
         })
-        io.on('audio', function (audioRec) {
+
+        io.on('audio', function(audioRec) {
             console.log(audioRec);
             audio.src = audioRec;
             document.querySelector('p').innerHTML = "Paramos la grabación y ahora escuchala...";
         })
+
         //Función en caso de error
-        var error = function (e) {
+        var error = function(e) {
             console.log('¡No pude grabarte!', e);
         };
+
         //Función cuando todo tenga exito
-        var exito = function (s) {
+        var exito = function(s) {
             var AudioContext = window.AudioContext || window.webkitAudioContext;
             var context = new AudioContext(); //Conectamos con nuestra entrada de audio
             var flujo = context.createMediaStreamSource(s); //Obtenemos el flujo de datos desde la fuente
             recorder = new Recorder(flujo); //Todo el flujo de datos lo pasamos a nuestra libreria para procesarlo en esta instancia
             recorder.record(); //Ejecutamos la función para procesarlo
         }
+
         //Convertirmos el objeto en URL
         window.URL = window.URL || window.webkitURL;
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
         var recorder; //Es nuestra variable para usar la libreria Recorder.js
         var audio = document.querySelector('audio'); //Seleccionamos la etiqueta audio para enviarte el audio y escucharla
+
         //Funcion para iniciar el grabado
         function grabar() {
             if (navigator.getUserMedia) { //Preguntamos si nuestro navegador es compatible con esta función que permite usar microfono o camara web
@@ -82,10 +91,11 @@
                 console.log('¡Tu navegador no es compatible!, ¿No lo vas a acutalizar?'); //Si no es compatible, enviamos este mensaje.
             }
         }
+
         //Funcion para parar la grabación y escucharla
         function parar() {
             recorder.stop(); //Paramos la grabación
-            recorder.exportWAV(function (s) { //Exportamos en formato WAV el audio 
+            recorder.exportWAV(function(s) { //Exportamos en formato WAV el audio 
                 audio.src = window.URL.createObjectURL(s); //Y convertimos el valor devuelto en URL para pasarlo a nuestro reproductor.
                 io.emit('audio', window.URL.createObjectURL(s))
             });

@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Media</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="WebRTC getUserMedia MediaRecorder API">
     <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
     <style>
         button {
             margin: 10px 5px;
         }
-
+        
         li {
             margin: 10px;
         }
-
+        
         body {
             width: 90%;
             max-width: 960px;
             margin: 0px auto;
         }
-
+        
         #btns {
             display: none;
         }
@@ -28,26 +30,45 @@
 </head>
 
 <body>
-    <h1>Media Audio</h1>
-    <div id='gUMArea'>
-        <div>
-            Record:
-            <!-- <input type="radio" name="media" value="video" checked id='mediaVideo'>Video -->
-            <input type="radio" name="media" value="audio" checked id='mediaAudio'> Audio
+
+    <div class="container">
+        <!-- start container -->
+        <div class="row">
+            <h1>Media Audio</h1>
+            <button class="btn btn-default" onclick="addAudioON()">Add</button>
+            <div class="col-xs-5">
+                <div id='gUMArea'>
+                    <div>
+                        Record:
+                        <!-- <input type="radio" name="media" value="video" checked id='mediaVideo'>Video -->
+                        <input type="radio" name="media" value="audio" checked id='mediaAudio'> Audio
+                    </div>
+                    <button class="btn btn-default" id='gUMbtn'>Request Stream</button>
+                </div>
+                <div id='btns'>
+                    <button class="btn btn-default" id='start'>Start</button>
+                    <button class="btn btn-default" id='stop'>Stop</button>
+                </div>
+                <div>
+                    <ul class="list-unstyled" id='ul'></ul>
+                </div>
+            </div>
+
+            <div class="col-xs-7">
+                <h3>Audios</h3>
+                <ul class="list-unstyled" id='ull'></ul>
+                <audio controls autoplay></audio><br>
+                <audio controls autoplay></audio>
+            </div>
         </div>
-        <button class="btn btn-default" id='gUMbtn'>Request Stream</button>
     </div>
-    <div id='btns'>
-        <button class="btn btn-default" id='start'>Start</button>
-        <button class="btn btn-default" id='stop'>Stop</button>
-    </div>
-    <div>
-        <ul class="list-unstyled" id='ul'></ul>
-    </div>
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="js/script.js"></script>
+    <!-- end container -->
 </body>
+<!-- end body -->
+
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/script.js"></script>
 
 </html>
