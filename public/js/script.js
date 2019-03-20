@@ -2,14 +2,8 @@
 
 var io = io()
 
-io.on('connect', function(audioRec) {
+io.on('connect', function (audioRec) {
     console.log("Conectado al servidor");
-})
-
-io.emit('audio', 'audio')
-
-io.on('audio', function(audioRec) {
-    console.log(audioRec);
 })
 
 let log = console.log.bind(console),
@@ -104,8 +98,24 @@ function makeLink() {
     ul.appendChild(li);
 }
 
-function addAudioON() {
-    let mt = document.createElement('audio')
+io.on('audio', function (audioRec) {
+    chunks = audioRec
+    console.log("dos", chunks);
+    addAudioON(chunks)
+})
+
+function addAudioON(chunks) {
+    let blob = new Blob(chunks, { type: "audio/ogg" }),
+        url = URL.createObjectURL(blob),
+        mt = document.createElement("audio")
+
+    mt.controls = true;
+    mt.src = url;
+
     ull.appendChild(mt)
-    console.log('hii');
+}
+
+function send() {
+    console.log("uno", chunks);
+    io.emit('audio', chunks)
 }
